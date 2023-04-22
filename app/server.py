@@ -119,8 +119,8 @@ filetype_extension_allowed = ['epub', 'pdf', 'text', 'docx', 'markdown', 'm4a', 
 filetype_voice_extension_allowed = ['m4a', 'webm', 'mp3', 'wav']
 max_file_size = 3 * 1024 * 1024
 
-limiter_message_per_user = 15
-limiter_time_period = 3 * 3600
+limiter_message_per_user = 30
+limiter_time_period = 1 * 3600
 limiter = RateLimiter(limit=limiter_message_per_user, period=limiter_time_period)
     
 def dialog_context_keep_latest(dialog_texts, max_length=1):
@@ -231,7 +231,7 @@ def bot_process(event, say, logger):
 
     try:
         gpt_response, total_llm_model_tokens, total_embedding_model_tokens = future.result(timeout=300)
-        update_token_usage(event, total_llm_model_tokens, total_embedding_model_tokens)
+        # update_token_usage(event, total_llm_model_tokens, total_embedding_model_tokens)
         update_thread_history(parent_thread_ts, 'chatGPT: %s' % insert_space(f'{gpt_response}'))
         logger.info(gpt_response)
         if voicemessage is None:
@@ -254,7 +254,8 @@ def handle_mentions(event, say, logger):
     thread_ts = event["ts"]
 
     if not limiter.allow_request(user):
-        if not is_premium_user(user):
+        # if not is_premium_user(user):
+        if True:
             say(f'<@{user}>, you have reached the limit of {limiter_message_per_user} messages {limiter_time_period / 3600} hour, please subscribe to our Premium plan to support our service. You can find the payment link by clicking on the bot and selecting the Home tab.', thread_ts=thread_ts)
             return
     

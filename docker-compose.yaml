@@ -1,0 +1,12 @@
+services:
+  web:
+    image: aireader:lastest
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      SLACK_TOKEN: ${SLACK_TOKEN}
+      SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
+      PHANTOMJSCLOUD_API_KEY: ${PHANTOMJSCLOUD_API_KEY}
+      CF_ACCESS_CLIENT_ID: ${CF_ACCESS_CLIENT_ID}
+      CF_ACCESS_CLIENT_SECRET: ${CF_ACCESS_CLIENT_SECRET}
+    ports:
+      - ${PORT}:8080
